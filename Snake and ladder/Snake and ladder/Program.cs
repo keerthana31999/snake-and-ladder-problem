@@ -2,73 +2,53 @@
 
 namespace Snake_and_ladder
 {
-    class Program
-    {
-        public const int START_POINT = 0;
-        public const int END_POINT = 100;
-        public const int NO_PLAY = 0;
-        public const int SNAKE = 1;
-        public const int LADDER = 2;
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Welcome to snakes and ladders game \nEnter player name");
-            string player1 = Console.ReadLine();
-            int currentPositionOfPlayer = START_POINT;
-            for (int noOfTimesRoll = 1; currentPositionOfPlayer < 100; noOfTimesRoll++)
-            {
-                int diceRoll = DiceRoll();
-                Console.WriteLine("You Got Number After rolled: " + diceRoll);
-                currentPositionOfPlayer = PlayerMovement(diceRoll, currentPositionOfPlayer);
-                Console.WriteLine("Your Current position: " + currentPositionOfPlayer);
-                Console.WriteLine("you rolled you dice total time from stating::" + noOfTimesRoll);
-                if (currentPositionOfPlayer == 100)
-                {
-                    Console.WriteLine("Game Over");
-                    break;
-                }
-                Console.ReadLine();
-            }
-        }
-        static int DiceRoll()
-        {
-            Random random = new Random();
-            int diceNumber = random.Next(1, 7);
-            return diceNumber;
-        }
-        static int PlayerMovement(int numbRolled, int positionPlayer)
-        {
-            Random random = new Random();
-            int move = random.Next(0, 3);
-            switch (move)
-            {
-                case NO_PLAY:
-                    Console.WriteLine("==No Play==");
-                    break;
-                case SNAKE:
-                    Console.WriteLine("==you are bitten by Snake==");
-                    if (positionPlayer - numbRolled >= 0)
-                    {
-                        positionPlayer = positionPlayer - numbRolled;
-                        break;
-                    }
-                    else
-                    {
-                        positionPlayer = START_POINT;
-                        break;
-                    }
-                case LADDER:
-                    Console.WriteLine("==You got Ladder==");
-                    if (positionPlayer + numbRolled <= 100)
-                    {
-                        positionPlayer = positionPlayer + numbRolled;
-                        break;
-                    }
-                    else
-                        break;
-            }
-            return positionPlayer;
-        }
-    }
+	class Program
+	{
+		public const int NO_OF_PLAYERS = 1;
+		public const int INITIAL_POSITION = 0;
+		public const int NO_PLAY = 0;
+		public const int LADDER = 1;
+		public const int SNAKE = 2;
+		public const int WINNING_POSITION = 100;
+		static void Main(String[] args)
+		{
+			int curentPosition = INITIAL_POSITION;
+			int moves = 0;
+			Console.WriteLine("Welcome to snakes and ladders game");
+			Console.WriteLine("now Start the game \nPlayer is at the starting position");
+			while (curentPosition != WINNING_POSITION)
+			{
+				Random value = new Random();
+				int valueOfDice = value.Next(1, 7);
+				Console.WriteLine("Player rolled : " + valueOfDice);
+				int actionTaken = value.Next(0, 3);
+				if (actionTaken == NO_PLAY)
+				{
+					Console.WriteLine("No action taken");
+				}
+				else if (actionTaken == LADDER)
+				{
+					curentPosition += valueOfDice;
+					if (curentPosition > WINNING_POSITION)
+					{
+						curentPosition -= valueOfDice;
+					}
+				}
+				else
+				{
+					curentPosition -= valueOfDice;
+					if (curentPosition < INITIAL_POSITION)
+					{
+						curentPosition = INITIAL_POSITION;
+					}
+				}
+				moves++;
+				Console.WriteLine("You Are At Position : " + curentPosition);
+			}
+			Console.WriteLine("You reached exact winning position in : " + moves + " moves");
+
+		}
+	}
 }
 
 
